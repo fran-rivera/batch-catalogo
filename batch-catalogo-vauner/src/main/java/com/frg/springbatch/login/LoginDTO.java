@@ -1,7 +1,5 @@
 package com.frg.springbatch.login;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -37,9 +35,9 @@ public class LoginDTO {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
-                .append("emailAddress", this.res)
-                .append("name", this.guid)
-                .toString();
+        return "LoginDTO{" +
+                "res='" + res + '\'' +
+                ", guid='" + guid + '\'' +
+                '}';
     }
 }

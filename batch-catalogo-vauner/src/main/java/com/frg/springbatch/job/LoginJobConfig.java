@@ -1,4 +1,4 @@
-package com.frg.springbatch.rest.in;
+package com.frg.springbatch.job;
 
 import com.frg.springbatch.common.LoggingLoginProcessor;
 import com.frg.springbatch.common.LoggingLoginWriter;
@@ -21,13 +21,13 @@ import org.springframework.web.client.RestTemplate;
  * @author Fran Rivera
  */
 @Configuration
-public class RESTLoginJobConfig {
+public class LoginJobConfig {
 
-    private static final String PROPERTY_REST_API_URL = "rest.api.to.database.job.api.url";
+    private static final String PROPERTY_REST_API_URL = "rest.api.login.url";
 
     @Bean
     ItemReader<LoginDTO> restStudentReader(Environment environment, RestTemplate restTemplate) {
-        return new RESTLoginReader(environment.getRequiredProperty(PROPERTY_REST_API_URL), restTemplate);
+        return new LoginReader(environment.getRequiredProperty(PROPERTY_REST_API_URL), restTemplate);
     }
 
     @Bean
