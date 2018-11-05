@@ -1,14 +1,14 @@
 package com.frg.springbatch.rest;
 
-import com.frg.springbatch.login.CategoryDTO;
-import com.frg.springbatch.login.CategoryDetail;
-import com.frg.springbatch.login.LoginDTO;
-import com.frg.springbatch.login.ProductDTO;
+import com.frg.springbatch.login.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
 
 @Service
 public class ExportService {
@@ -41,16 +41,32 @@ public class ExportService {
 
         System.out.println("ExportService.getCatalogo : Obtenidas " + categoryData.getDetailCategory().size()+ " categorias!");
 
+        List <CategoryDetail> categoryError = null;
+        List <ProductDetail> productDetailList;
         for (CategoryDetail category : categoryData.getDetailCategory()){
+            
             if (category.getCODIGO() .equals(category.getGRUPO())){
                 System.out.println("ExportService.getCatalogo: Obteniendo productos de la Categoria: " + category.getDescricao());
 
                 String urlProducto = environment.getProperty(PROPERTY_REST_API_URL_PRODUCTS).replace("<login>", loginData.getGuid()).replace("<categoria>",category.getCODIGO());
 
-                ResponseEntity<ProductDTO> responseProducts = restTemplate.getForEntity(urlProducto, ProductDTO.class);
-                ProductDTO productData = responseProducts.getBody();
+                try {
 
-                System.out.println("ExportService.getCatalogo: Obtenidos: " +productData.getProductDetail().size()+" productos para la Categoría:"+category.getDescricao());
+                    ResponseEntity<ProductDTO> responseProducts = restTemplate.getForEntity(urlProducto, ProductDTO.class);
+                    ProductDTO productData = responseProducts.getBody();
+
+                    System.out.println("ExportService.getCatalogo: Obtenidos: " +productData.getProductDetail().size()+" productos para la Categoría: "+category.getDescricao());
+
+
+                    //productDetailList.add(productData.getProductDetail().get(i));
+
+
+
+                } catch (HttpServerErrorException e){
+
+                    System.out.println("No se han obtenido productos para la categoria: " +category.getDescricao());
+                    categoryError.add(category);
+                }
             }
         }
 
