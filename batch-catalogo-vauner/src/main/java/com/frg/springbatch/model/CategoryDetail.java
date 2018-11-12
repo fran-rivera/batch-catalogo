@@ -1,5 +1,5 @@
 
-package com.frg.springbatch.login;
+package com.frg.springbatch.model;
 
 import java.util.HashMap;
 import java.util.Map;

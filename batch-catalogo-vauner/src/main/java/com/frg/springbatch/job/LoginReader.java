@@ -1,6 +1,6 @@
 package com.frg.springbatch.job;
 
-import com.frg.springbatch.login.LoginDTO;
+import com.frg.springbatch.model.LoginDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemReader;
@@ -36,7 +36,7 @@ public class LoginReader implements ItemReader<LoginDTO> {
 
     @Override
     public LoginDTO read() throws Exception {
-        LOGGER.info("Reading the information of login");
+        LOGGER.info("Reading the information of model");
 
         if (loginDataIsNotInitialized()) {
             loginData = fetchLoginDataFromAPI();
@@ -50,7 +50,7 @@ public class LoginReader implements ItemReader<LoginDTO> {
     }
 
     public LoginDTO fetchLoginDataFromAPI() {
-        LOGGER.debug("Fetching login data from an external API by using the url: {}", apiUrl);
+        LOGGER.debug("Fetching model data from an external API by using the url: {}", apiUrl);
 
         ResponseEntity<LoginDTO> response = restTemplate.getForEntity(apiUrl, LoginDTO.class);
         LoginDTO loginData = response.getBody();

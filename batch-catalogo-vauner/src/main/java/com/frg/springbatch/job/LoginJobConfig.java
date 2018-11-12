@@ -2,7 +2,7 @@ package com.frg.springbatch.job;
 
 import com.frg.springbatch.common.LoggingLoginProcessor;
 import com.frg.springbatch.common.LoggingLoginWriter;
-import com.frg.springbatch.login.LoginDTO;
+import com.frg.springbatch.model.LoginDTO;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;

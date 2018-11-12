@@ -14,10 +14,10 @@ public class ExportController {
     /**
      * Handle request to download an Excel document
      */
-    @RequestMapping(method = RequestMethod.GET, value = "/download")
+    @RequestMapping(method = RequestMethod.GET, value = "/getCatalogo")
     public String download() {
         exportService.getCatalogo();
-        return "";
+        return "Guay FRG!!";
     }
 
 

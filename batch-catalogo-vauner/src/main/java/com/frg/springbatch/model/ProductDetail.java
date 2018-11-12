@@ -1,5 +1,5 @@
 
-package com.frg.springbatch.login;
+package com.frg.springbatch.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

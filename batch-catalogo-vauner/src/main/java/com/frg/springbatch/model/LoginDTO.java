@@ -1,13 +1,13 @@
-package com.frg.springbatch.login;
+package com.frg.springbatch.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Contains the information of authorization and login.
+ * Contains the information of authorization and model.
  *
  * @author Fran Rivera
  */
-@XmlRootElement(name="login")
+@XmlRootElement(name="model")
 public class LoginDTO {
 
     private String res;
