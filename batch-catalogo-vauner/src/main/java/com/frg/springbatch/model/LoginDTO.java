@@ -1,15 +1,13 @@
-package com.frg.springbatch.login;
-
-import org.apache.commons.lang3.builder.ToStringBuilder;
+package com.frg.springbatch.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Contains the information of authorization and login.
+ * Contains the information of authorization and model.
  *
  * @author Fran Rivera
  */
-@XmlRootElement(name="login")
+@XmlRootElement(name="model")
 public class LoginDTO {
 
     private String res;
@@ -37,9 +35,9 @@ public class LoginDTO {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
-                .append("emailAddress", this.res)
-                .append("name", this.guid)
-                .toString();
+        return "LoginDTO{" +
+                "res='" + res + '\'' +
+                ", guid='" + guid + '\'' +
+                '}';
     }
 }

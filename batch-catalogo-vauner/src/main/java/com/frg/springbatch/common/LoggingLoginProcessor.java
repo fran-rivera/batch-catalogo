@@ -1,6 +1,6 @@
 package com.frg.springbatch.common;
 
-import com.frg.springbatch.login.LoginDTO;
+import com.frg.springbatch.model.LoginDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
@@ -17,7 +17,7 @@ public class LoggingLoginProcessor implements ItemProcessor<LoginDTO, LoginDTO> 
 
     @Override
     public LoginDTO process(LoginDTO item) throws Exception {
-        LOGGER.info("Processing login information: {}", item);
+        LOGGER.info("Processing model information: {}", item);
         return item;
     }
 }

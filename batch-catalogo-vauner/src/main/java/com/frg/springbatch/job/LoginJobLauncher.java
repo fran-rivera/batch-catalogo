@@ -1,4 +1,4 @@
-package com.frg.springbatch.rest.in;
+package com.frg.springbatch.job;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,22 +23,22 @@ import java.util.Map;
  * @author Fran Rivera
  */
 @Component
-public class RESTLoginJobLauncher {
+public class LoginJobLauncher {
 
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RESTLoginJobLauncher.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoginJobLauncher.class);
 
     private final Job job;
 
     private final JobLauncher jobLauncher;
 
     @Autowired
-    RESTLoginJobLauncher(@Qualifier("restStudentJob") Job job, JobLauncher jobLauncher) {
+    LoginJobLauncher(@Qualifier("restStudentJob") Job job, JobLauncher jobLauncher) {
         this.job = job;
         this.jobLauncher = jobLauncher;
     }
 
-    @Scheduled(cron = "${rest.api.to.database.job.cron}")
+    @Scheduled(cron = "${catalogo.job.cron}")
     void launchXmlFileToDatabaseJob() throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException {
         LOGGER.info("Starting restStudentJob job");
 
