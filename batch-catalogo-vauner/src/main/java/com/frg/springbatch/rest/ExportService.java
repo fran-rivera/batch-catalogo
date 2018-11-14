@@ -68,11 +68,14 @@ public class ExportService {
 
                         System.out.println("ExportService.getCatalogo: Obtenidos: " + productData.getProductDetail().size() + " productos para la Categoría: " + category.getDescricao());
 
-                        productDetailList.add(productData.getProductDetail().get(0));
-
+                        for (ProductDetail productDetail : productData.getProductDetail()){
+                            productDetailList.add(productDetail);
+                        }
 
                         excelWriter.addSheet(category.getDescricao());
                         excelWriter.addRow(excelWriter.getHoja(), productDetailList);
+
+                        if (excelWriter.getNumHojas() == 2) break;
 
 
                     } catch (HttpServerErrorException e) {

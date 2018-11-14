@@ -17,6 +17,7 @@ public class ExportController {
     @RequestMapping(method = RequestMethod.GET, value = "/getCatalogo")
     public String download() {
         exportService.getCatalogo();
+        System.out.println("ExportController.download:  Proceso terminado! :) ");
         return "Guay FRG!!";
     }
 
