@@ -2,7 +2,6 @@ package com.frg.springbatch.rest;
 
 import com.frg.springbatch.common.ExcelWriter;
 import com.frg.springbatch.model.*;
-import org.apache.poi.ss.usermodel.Sheet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +24,10 @@ public class ExportService {
     @Autowired
     private Environment environment;
 
+
+    @Autowired
+    private ExcelWriter excelWriter;
+
     private final RestTemplate restTemplate;
 
 
@@ -42,44 +45,49 @@ public class ExportService {
         ResponseEntity<CategoryDTO> responseCategories = restTemplate.getForEntity(urlCategory, CategoryDTO.class);
         CategoryDTO categoryData = responseCategories.getBody();
 
-        System.out.println("ExportService.getCatalogo : Obtenidas " + categoryData.getDetailCategory().size()+ " categorias!");
+        System.out.println("ExportService.getCatalogo : Obtenidas " + categoryData.getDetailCategory().size() + " categorias!");
 
-        List <CategoryDetail> categoryError = new ArrayList<>();
-        List <ProductDetail> productDetailList = new ArrayList<>();
-        CategoryDetail category = categoryData.getDetailCategory().get(0);
-        //for (CategoryDetail category : categoryData.getDetailCategory()){
-            
-            if (category.getCODIGO() .equals(category.getGRUPO())){
-                System.out.println("ExportService.getCatalogo: Obteniendo productos de la Categoria: " + category.getDescricao());
 
-                String urlProducto = environment.getProperty(PROPERTY_REST_API_URL_PRODUCTS).replace("<login>", loginData.getGuid()).replace("<categoria>",category.getCODIGO());
+        try {
+            List<CategoryDetail> categoryError = new ArrayList<>();
+            List<ProductDetail> productDetailList = new ArrayList<>();
+            excelWriter.createBook();
 
-                try {
+            //CategoryDetail category = categoryData.getDetailCategory().get(0);
+            for (CategoryDetail category : categoryData.getDetailCategory()) {
 
-                    ResponseEntity<ProductDTO> responseProducts = restTemplate.getForEntity(urlProducto, ProductDTO.class);
-                    ProductDTO productData = responseProducts.getBody();
+                if (category.getCODIGO().equals(category.getGRUPO())) {
+                    System.out.println("ExportService.getCatalogo: Obteniendo productos de la Categoria: " + category.getDescricao());
 
-                    System.out.println("ExportService.getCatalogo: Obtenidos: " +productData.getProductDetail().size()+" productos para la Categoría: "+category.getDescricao());
+                    String urlProducto = environment.getProperty(PROPERTY_REST_API_URL_PRODUCTS).replace("<login>", loginData.getGuid()).replace("<categoria>", category.getCODIGO());
 
-                    productDetailList.add(productData.getProductDetail().get(0));
+                    try {
 
-                    ExcelWriter ew = new ExcelWriter();
-                    int rowNum = 1;
-                    Sheet sheet = ew.addSheet();
-                    ew.updateExcel(sheet,productDetailList,rowNum);
-                    //ew.closeExcel(sheet);
+                        ResponseEntity<ProductDTO> responseProducts = restTemplate.getForEntity(urlProducto, ProductDTO.class);
+                        ProductDTO productData = responseProducts.getBody();
 
-                } catch (HttpServerErrorException e){
+                        System.out.println("ExportService.getCatalogo: Obtenidos: " + productData.getProductDetail().size() + " productos para la Categoría: " + category.getDescricao());
 
-                    System.out.println("No se han obtenido productos para la categoria: " +category.getDescricao());
-                    categoryError.add(category);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                        productDetailList.add(productData.getProductDetail().get(0));
+
+
+                        excelWriter.addSheet(category.getDescricao());
+                        excelWriter.addRow(excelWriter.getHoja(), productDetailList);
+
+
+                    } catch (HttpServerErrorException e) {
+
+                        System.out.println("No se han obtenido productos para la categoria: " + category.getDescricao());
+                        categoryError.add(category);
+
+                    }
                 }
             }
-        //}
 
+            excelWriter.closeBook(excelWriter.getHoja());
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-
 }
