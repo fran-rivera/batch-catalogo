@@ -1,6 +1,7 @@
 package com.frg.springbatch.rest;
 
 import com.frg.springbatch.common.ExcelWriter;
+import com.frg.springbatch.common.SendMail;
 import com.frg.springbatch.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,8 @@ public class ExportService {
 
     @Autowired
     private ExcelWriter excelWriter;
+
+    private SendMail sendMail;
 
     private final RestTemplate restTemplate;
 
@@ -53,8 +57,8 @@ public class ExportService {
             List<ProductDetail> productDetailList = new ArrayList<>();
             excelWriter.createBook();
 
-            //CategoryDetail category = categoryData.getDetailCategory().get(0);
-            for (CategoryDetail category : categoryData.getDetailCategory()) {
+            CategoryDetail category = categoryData.getDetailCategory().get(0);
+            //for (CategoryDetail category : categoryData.getDetailCategory()) {
 
                 if (category.getCODIGO().equals(category.getGRUPO())) {
                     System.out.println("ExportService.getCatalogo: Obteniendo productos de la Categoria: " + category.getDescricao());
@@ -75,7 +79,7 @@ public class ExportService {
                         excelWriter.addSheet(category.getDescricao());
                         excelWriter.addRow(excelWriter.getHoja(), productDetailList);
 
-                        if (excelWriter.getNumHojas() == 2) break;
+                        //if (excelWriter.getNumHojas() == 2) break;
 
 
                     } catch (HttpServerErrorException e) {
@@ -85,11 +89,15 @@ public class ExportService {
 
                     }
                 }
-            }
+            //}
 
             excelWriter.closeBook(excelWriter.getHoja());
+                sendMail = new SendMail();
+                sendMail.createMail("catalogo-vauner.xlsx");
 
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (MessagingException e) {
             e.printStackTrace();
         }
     }
