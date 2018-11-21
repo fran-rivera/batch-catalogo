@@ -3,10 +3,9 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.frg.spring.batch</groupId>
     <artifactId>batch-catalogo-vauner</artifactId>
-    <version>1.0</version>
+    <version>1.0-SNAPSHOT</version>
     <name>Catalogo</name>
-    <description>
-    </description>
+    <description>Send mail attachment catalogo-vauner Spring Batch project</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -36,27 +35,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-rest</artifactId>
         </dependency>
-<!--        <dependency>
-            <groupId>org.springframework.batch</groupId>
-            <artifactId>spring-batch-excel</artifactId>
-            <version>0.5.0-SNAPSHOT</version>
-        </dependency>-->
-<!--        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
             <version>2.0.5.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-oxm</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -80,18 +62,23 @@
         <dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity</artifactId>
+            <version>1.7</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.velocity</groupId>
-            <artifactId>velocity</artifactId>
-            <version>1.7</version>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>2.11.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring</artifactId>
             <version>2.0.7</version>
         </dependency>
-    </dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+        </dependency>
+</dependencies>
     <build>
         <finalName>spring-batch-catalogoVauner</finalName>
         <plugins>

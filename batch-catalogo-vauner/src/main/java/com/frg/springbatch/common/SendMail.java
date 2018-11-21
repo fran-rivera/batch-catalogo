@@ -50,6 +50,7 @@ public class SendMail {
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
         engine = new VelocityEngine();
+        //Template t = engine.getTemplate("./src/main/resources/templates/email_html_new.vm");
         engine.init();
 
         Map<String, Object> model = new HashMap<>();
@@ -59,14 +60,15 @@ public class SendMail {
         helper.setTo("notifyappsfrg@gmail.com");
         //helper.setCc("frgar86");
 
-        helper.setSubject(VelocityEngineUtils.mergeTemplateIntoString(engine, "email-subject.vm", "UTF-8", model));
-        helper.setText(VelocityEngineUtils.mergeTemplateIntoString(engine, "email-body.vm", "UTF-8", model));
+        helper.setSubject(VelocityEngineUtils.mergeTemplateIntoString(engine, "./src/main/resources/templates/email-subject.vm", "UTF-8", model));
+        helper.setText(VelocityEngineUtils.mergeTemplateIntoString(engine, "./src/main/resources/templates/email-body.vm", "UTF-8", model));
 
         log.info("Preparing message for be sent!");
 
         FileSystemResource file = new FileSystemResource(attachment);
         helper.addAttachment(file.getFilename(), file);
 
+        mailSender.send(message);
 
 
         return  sent;
